@@ -1,12 +1,17 @@
-FROM eclipse-temurin:8-jdk
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Download Spigot 1.12.2 automatically
-RUN curl -L -o server.jar https://download.getbukkit.org/spigot/spigot-1.12.2.jar
+# Install Node.js for the WebSocket bridge
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
-COPY . /app
+# Download Spigot 1.12.2
+RUN curl -L -o server.jar https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar
+
+COPY . .
 
 EXPOSE 8080
 
-CMD ["bash", "start.sh"]
+CMD bash -c "node bridge.js & java -Xms512M -Xmx512M -jar server.jar nogui"
