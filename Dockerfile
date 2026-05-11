@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
+# Install WebSocket library
+RUN npm install ws
+
 # Download Spigot 1.12.2
 RUN curl -L -o server.jar https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar
 
