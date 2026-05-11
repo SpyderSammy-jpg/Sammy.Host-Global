@@ -18,4 +18,3 @@ COPY . .
 EXPOSE 8080
 
 CMD bash -c "node bridge.js & java -Xms512M -Xmx512M -jar server.jar nogui"
-
