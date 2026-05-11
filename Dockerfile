@@ -1,10 +1,10 @@
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:8-jdk
 
 WORKDIR /app
 
-# Install Node.js for the WebSocket bridge
+# Install Node.js (Node 18 breaks on Java 8 images)
 RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs
 
 # Install WebSocket library
@@ -18,3 +18,4 @@ COPY . .
 EXPOSE 8080
 
 CMD bash -c "node bridge.js & java -Xms512M -Xmx512M -jar server.jar nogui"
+
