@@ -2,6 +2,9 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
+# Copy repo first so bridge.js, eula.txt, server.properties, etc. exist
+COPY . .
+
 # Install Node.js for the WebSocket bridge
 RUN apt-get update && apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
@@ -12,8 +15,6 @@ RUN npm install ws
 
 # Download Spigot 1.12.2
 RUN curl -L -o server.jar https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar
-
-COPY . .
 
 EXPOSE 8080
 
